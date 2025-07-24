@@ -125,9 +125,9 @@ public class Gun : MonoBehaviour
 
     private void ChangeFireMode()
     {
-        int fireModeInt = (int)fireMode;
+        int fireModeIndex = (int)fireMode;
         int length = Enum.GetValues(typeof(FireMode)).Length;
-        fireMode = (FireMode)((fireModeInt + 1) % length);
+        fireMode = (FireMode)((fireModeIndex + 1) % length);
 
         SetFireModeText();
     }
