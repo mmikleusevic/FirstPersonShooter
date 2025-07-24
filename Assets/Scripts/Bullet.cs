@@ -26,9 +26,12 @@ public class Bullet : MonoBehaviour
         if (other.TryGetComponent(out EnemyHealth enemyHealth))
         {
             enemyHealth.TakeDamage(damage);
+            DestroyBullet();
         }
-        
-        DestroyBullet();
+        else if (other.TryGetComponent(out TerrainCollider terrainCollider))
+        {
+            DestroyBullet();
+        }
     }
 
     private void DestroyBullet(float timeToDestroy = 0f)

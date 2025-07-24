@@ -31,6 +31,8 @@ public class EnemyHealth : MonoBehaviour
 
     private void SetHealthBar()
     {
+        if (!enemyHealthBarImage) return;
+        
         enemyHealthBarImage.fillAmount = currentHealth / maxHealth;
     }
 }
