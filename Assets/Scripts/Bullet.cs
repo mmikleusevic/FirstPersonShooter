@@ -32,6 +32,11 @@ public class Bullet : MonoBehaviour
         {
             DestroyBullet();
         }
+        else if (other.TryGetComponent(out Explosion explosion))
+        {
+            explosion.TakeDamage(damage);
+            DestroyBullet();
+        }
     }
 
     private void DestroyBullet(float timeToDestroy = 0f)

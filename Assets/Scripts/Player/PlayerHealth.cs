@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,6 +55,38 @@ public class PlayerHealth : MonoBehaviour
         
         currentHealth = Mathf.Min(currentHealth + heal, maxHealth);
         healthPoints--;
+        SetHealthBar();
+    }
+    
+    public void HealFromHealthPack(float totalHeal, float duration)
+    {
+        StartCoroutine(HealOverTime(totalHeal, duration));
+    }
+
+    private IEnumerator HealOverTime(float totalHeal, float duration)
+    {
+        float healTimer = 0f;
+        float healSoFar = 0f;
+
+        while (healTimer < duration)
+        {
+            float elapsed = healTimer / duration;
+            
+            healTimer += Time.deltaTime;
+            
+            float targetHeal = Mathf.Lerp(0, totalHeal, elapsed);
+            float deltaHeal = targetHeal - healSoFar;
+            
+            healSoFar += deltaHeal;
+
+            currentHealth = Mathf.Clamp(currentHealth + deltaHeal, 0, maxHealth);
+            SetHealthBar();
+            
+            yield return null;
+        }
+        
+        float finalHeal = totalHeal - healSoFar;
+        currentHealth = Mathf.Clamp(currentHealth + finalHeal, 0, maxHealth);
         SetHealthBar();
     }
 }

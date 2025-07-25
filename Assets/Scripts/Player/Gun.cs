@@ -49,6 +49,12 @@ public class Gun : MonoBehaviour
         SetMagazineSizeText();
     }
 
+    private void OnEnable()
+    {
+        SetFireModeText();
+        SetMagazineSizeText();
+    }
+    
     private void Update()
     {
         if (Input.GetMouseButton(0) && !isShooting && !isEmpty && !isReloading)

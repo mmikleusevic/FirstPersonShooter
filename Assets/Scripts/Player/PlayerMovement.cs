@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private Vector3 jumpForce;
+    [SerializeField] private List<Gun> guns;
+    [SerializeField] private Gun selectedGun;
+    [SerializeField] private int changeStep = 1;
     
     private Rigidbody playerRigidbody;
     
@@ -46,6 +50,15 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRigidbody.AddForce(jumpForce, ForceMode.Impulse);
         }
+        
+        if (Input.mouseScrollDelta.y > 0)
+        {
+            ChangeGun(changeStep);
+        }
+        else if (Input.mouseScrollDelta.y < 0)
+        {
+            ChangeGun(-changeStep);
+        }
     }
 
     private void FixedUpdate()
@@ -72,6 +85,17 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = true;
         }
+    }
+
+    private void ChangeGun(int step)
+    {
+        int currentIndex = guns.IndexOf(selectedGun);
+        int length = guns.Count;
+        int index = (currentIndex + step  + length) % length;
+            
+        selectedGun.gameObject.SetActive(false);
+        selectedGun = guns[index];
+        selectedGun.gameObject.SetActive(true);
     }
 
     private void OnCollisionExit(Collision other)
